@@ -247,48 +247,71 @@
     }
 
     /* HERO SOCIAL BAR */
-    .social-bar{
-      margin-top:1.8rem;
-      display:flex;
-      flex-wrap:wrap;
-      align-items:center;
-      gap:.8rem 1rem;
-    }
-    .social-label{
-      font-size:.75rem;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:var(--muted);
-    }
-    .social-icons{
-      display:flex;
-      flex-wrap:wrap;
-      gap:.55rem;
-    }
-    .social-icon{
-      width:34px;
-      height:34px;
-      border-radius:999px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:radial-gradient(circle at 30% 0,var(--teal),var(--pink));
-      color:#020617;
-      font-size:1rem;
-      box-shadow:0 0 0 rgba(0,228,208,0);
-      transform:translateZ(0) scale(1);
-      transition:transform .25s, box-shadow .25s, filter .25s;
-    }
-    .social-icon span{
-      font-weight:700;
-      text-transform:uppercase;
-      font-size:.9rem;
-    }
-    .social-icon:hover{
-      transform:translateY(-3px) scale(1.1);
-      box-shadow:0 0 18px rgba(0,228,208,.9),0 0 28px rgba(255,45,111,.7);
-      filter:saturate(1.4);
-    }
+   /* Social card grid */
+.social-card-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+/* Base card style */
+.social-card {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #0a0a0a;
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+
+  transition: transform .25s ease, 
+              box-shadow .25s ease, 
+              background .25s ease;
+}
+
+/* Icons black & white by default */
+.social-card img {
+  width: 22px;
+  height: 22px;
+  filter: invert(1) grayscale(100%);
+  transition: filter .25s ease;
+}
+
+/* Hover effects */
+.social-card:hover {
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 0 16px rgba(255,255,255,0.25);
+}
+
+/* Facebook: Color on hover */
+.social-card.fb:hover img {
+  filter: none;
+}
+
+/* Instagram gradient on hover */
+.social-card.ig:hover img {
+  filter: none;
+}
+
+/* GitHub stays original (white/black) */
+.social-card.gh:hover img {
+  filter: none;
+}
+
+/* YouTube red */
+.social-card.yt:hover img {
+  filter: none;
+}
+
+/* LinkedIn blue */
+.social-card.ln:hover img {
+  filter: none;
+}
+
 
     /* section headers */
     .section-header{
@@ -578,26 +601,28 @@
         </div>
 
         <!-- SOCIAL BAR WITH NEON ICONS -->
-        <div class="social-bar">
-          <span class="social-label">Connect</span>
-          <div class="social-icons">
-            <!-- placeholders, replace href values later -->
-            <a href="https://facebook.com/ankit.padhiyar20" target="_blank" class="social-icon" aria-label="Facebook">
-              <span>f</span>
-            </a>
-            <a href="https://instagram.com/ankitpadhiyar" target="_blank" class="social-icon" aria-label="Instagram">
-              <span>ig</span>
-            </a>
-            <a href="https://github.com/ankitpadhiyar" target="_blank" class="social-icon" aria-label="GitHub">
-              <span>gh</span>
-            </a>
-            <a href="https://www.youtube.com/@Officialarmorx00" target="_blank" class="social-icon" aria-label="YouTube">
-              <span>yt</span>
-            </a>
-            <a href="https://linkedin.com/in/ankitpadhiyar" target="_blank" class="social-icon" aria-label="LinkedIn">
-              <span>in</span>
-            </a>
-          </div>
+       <div class="social-card-grid">
+  <a href="https://facebook.com/ankit.padhiyar20" class="social-card fb" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook" />
+  </a>
+
+  <a href="https://instagram.com/ankit_padhiyar.20" class="social-card ig" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" />
+  </a>
+
+  <a href="https://github.com/ankitpadhiyar" class="social-card gh" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="GitHub" />
+  </a>
+
+  <a href="https://www.youtube.com/@Officialarmorx00" class="social-card yt" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube" />
+  </a>
+
+  <a href="https://linkedin.com/in/ankitpadhiyar" class="social-card ln" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" />
+  </a>
+</div>
+
         </div>
       </div>
 
