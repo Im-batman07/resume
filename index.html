@@ -166,6 +166,7 @@
       grid-template-columns:minmax(0,1.4fr) minmax(0,1.1fr);
       gap:3rem;
       align-items:center;
+      min-height:calc(100vh - 70px); /* fill full page under header */
     }
     .hero-kicker{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem;}
     .hero-title{font-size:clamp(2.6rem,4vw,3.6rem);font-weight:800;line-height:1.1;margin-bottom:.75rem;}
@@ -243,6 +244,50 @@
     @keyframes stackFloat{
       0%,100%{transform:translateY(0) rotateY(-18deg) rotateX(12deg);}
       50%{transform:translateY(-14px) rotateY(-10deg) rotateX(8deg);}
+    }
+
+    /* HERO SOCIAL BAR */
+    .social-bar{
+      margin-top:1.8rem;
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:.8rem 1rem;
+    }
+    .social-label{
+      font-size:.75rem;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--muted);
+    }
+    .social-icons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.55rem;
+    }
+    .social-icon{
+      width:34px;
+      height:34px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:radial-gradient(circle at 30% 0,var(--teal),var(--pink));
+      color:#020617;
+      font-size:1rem;
+      box-shadow:0 0 0 rgba(0,228,208,0);
+      transform:translateZ(0) scale(1);
+      transition:transform .25s, box-shadow .25s, filter .25s;
+    }
+    .social-icon span{
+      font-weight:700;
+      text-transform:uppercase;
+      font-size:.9rem;
+    }
+    .social-icon:hover{
+      transform:translateY(-3px) scale(1.1);
+      box-shadow:0 0 18px rgba(0,228,208,.9),0 0 28px rgba(255,45,111,.7);
+      filter:saturate(1.4);
     }
 
     /* section headers */
@@ -505,6 +550,7 @@
     <section id="hero" class="hero">
       <div class="parallax-3d" style="width:280px;height:280px;right:-80px;top:-60px;"></div>
       <div class="parallax-3d ring" style="width:360px;height:360px;left:-160px;bottom:-140px;"></div>
+      <div class="parallax-3d" style="width:190px;height:190px;left:40%;top:-120px;opacity:.18;"></div>
 
       <div>
         <div class="hero-kicker">Front-end & logical mind</div>
@@ -530,12 +576,35 @@
           <span><strong>Focus:</strong> Web interfaces & logic</span>
           <span><strong>Based in:</strong> India</span>
         </div>
+
+        <!-- SOCIAL BAR WITH NEON ICONS -->
+        <div class="social-bar">
+          <span class="social-label">Connect</span>
+          <div class="social-icons">
+            <!-- placeholders, replace href values later -->
+            <a href="https://facebook.com/ankit.padhiyar20" target="_blank" class="social-icon" aria-label="Facebook">
+              <span>f</span>
+            </a>
+            <a href="https://instagram.com/ankitpadhiyar" target="_blank" class="social-icon" aria-label="Instagram">
+              <span>ig</span>
+            </a>
+            <a href="https://github.com/ankitpadhiyar" target="_blank" class="social-icon" aria-label="GitHub">
+              <span>gh</span>
+            </a>
+            <a href="https://www.youtube.com/@Officialarmorx00" target="_blank" class="social-icon" aria-label="YouTube">
+              <span>yt</span>
+            </a>
+            <a href="https://linkedin.com/in/ankitpadhiyar" target="_blank" class="social-icon" aria-label="LinkedIn">
+              <span>in</span>
+            </a>
+          </div>
+        </div>
       </div>
 
       <div class="hero-3d">
         <div class="glass-card tilt-3d">
           <div class="badge-row">
-            <span>Portfolio v1.2</span>
+            <span>Portfolio v1.3</span>
             <span class="status"><span class="status-dot"></span>Available for work</span>
           </div>
           <div class="dev-title">Full stack curious</div>
@@ -612,6 +681,7 @@
 
       <div class="section-header">
         <h2 class="section-title">A face behind the code.</h2>
+       
       </div>
 
       <div class="image-grid">
@@ -628,10 +698,10 @@
             <strong>I believe in silence until success makes the noise.</strong>
           </p>
           <ul class="image-points">
-            <li>A confident creator who believes in silent work and loud results.</li>
-            <li>Focused, disciplined, and driven to build something bigger every day.</li>
-            <li>Calm mind, sharp skills, and an attitude that speaks through action.</li>
             <li>A bold learner who turns ideas into reality with clarity and confidence.</li>
+            <li>Calm mind, sharp skills, and an attitude that speaks through action.</li>
+            <li>Focused, disciplined, and driven to build something bigger every day.</li>
+            <li>A confident creator who believes in silent work and loud results.</li>
           </ul>
         </div>
       </div>
