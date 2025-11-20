@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ankit Padhiyar | Portfolio</title>
+  <style>
+    :root {
+      --bg: #101014;
+      --bg-alt: #17171f;
+      --teal: #00e4d0;
+      --pink: #ff2d6f;
+      --text: #ffffff;
+      --muted: #9ca3af;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;scroll-behavior:smooth;}
+    body{
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:radial-gradient(circle at top left,#171923 0,#050509 60%);
+      color:var(--text);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+    a{text-decoration:none;color:inherit;}
+    img{max-width:100%;display:block;}
+    /* scroll line */
+    .scroll-track{
+      position:fixed;top:0;left:0;width:100%;height:2px;
+      background:linear-gradient(to right,rgba(0,228,208,.25),rgba(255,45,111,.25));
+      z-index:1100;pointer-events:none;
+    }
+    .scroll-dot{
+      position:absolute;top:-1px;left:0;width:8px;height:8px;border-radius:50%;
+      background:radial-gradient(circle,var(--teal),var(--pink));
+      box-shadow:0 0 12px rgba(0,228,208,.9);
+      transform:translateX(0);
+    }
+    /* loader */
+    .loader-overlay{
+      position:fixed;inset:0;
+      background:radial-gradient(circle at top,#1f2937 0,#020308 65%);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      color:#e5e7eb;z-index:2000;
+    }
+    .loader-cube{
+      width:90px;height:90px;position:relative;
+      transform-style:preserve-3d;
+      animation:spinCube 3s linear infinite;margin-bottom:24px;
+    }
+    .cube-face{
+      position:absolute;inset:0;border-radius:20px;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;font-size:1.4rem;letter-spacing:.08em;text-transform:uppercase;
+      background:linear-gradient(135deg,var(--teal),var(--pink));
+      box-shadow:0 18px 45px rgba(0,0,0,.65);
+    }
+    .cube-face:nth-child(1){transform:rotateY(0deg) translateZ(45px);}
+    .cube-face:nth-child(2){transform:rotateY(90deg) translateZ(45px);}
+    .cube-face:nth-child(3){transform:rotateY(180deg) translateZ(45px);}
+    .cube-face:nth-child(4){transform:rotateY(-90deg) translateZ(45px);}
+    .cube-face:nth-child(5){transform:rotateX(90deg) translateZ(45px);}
+    .cube-face:nth-child(6){transform:rotateX(-90deg) translateZ(45px);}
+    .loader-text{font-size:.9rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+    .loader-bar{margin-top:16px;width:180px;height:3px;border-radius:9999px;
+      background:rgba(148,163,184,.25);overflow:hidden;position:relative;}
+    .loader-bar-inner{
+      position:absolute;inset:0;
+      background:linear-gradient(to right,var(--teal),var(--pink),var(--teal));
+      animation:loaderBar 1.4s ease-in-out infinite;
+    }
+    @keyframes spinCube{
+      0%{transform:rotateX(-25deg) rotateY(0deg);}
+      50%{transform:rotateX(25deg) rotateY(180deg);}
+      100%{transform:rotateX(-25deg) rotateY(360deg);}
+    }
+    @keyframes loaderBar{
+      0%{transform:translateX(-100%);}
+      50%{transform:translateX(0%);}
+      100%{transform:translateX(100%);}
+    }
+    .loader-hidden{opacity:0;visibility:hidden;transition:opacity .5s ease,visibility .5s ease;}
+    /* header */
+    header{
+      position:sticky;top:0;z-index:1000;
+      backdrop-filter:blur(14px);
+      background:linear-gradient(to bottom,rgba(10,10,15,.93),rgba(10,10,15,.7),transparent);
+      border-bottom:1px solid rgba(31,41,55,.6);
+    }
+    .nav-container{
+      max-width:1120px;margin:0 auto;padding:.8rem 1.5rem;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .logo{display:flex;align-items:center;gap:.5rem;font-weight:700;
+      letter-spacing:.15em;text-transform:uppercase;font-size:.8rem;}
+    .logo-badge{
+      width:28px;height:28px;border-radius:.9rem;
+      background:linear-gradient(135deg,var(--teal),var(--pink));
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;font-size:1rem;
+      box-shadow:0 10px 25px rgba(0,228,208,.65);
+      transform:translateZ(10px);
+    }
+    nav ul{list-style:none;display:flex;gap:1.2rem;align-items:center;}
+    nav a{
+      font-size:.9rem;color:var(--muted);padding-bottom:4px;position:relative;
+      transition:color .25s,transform .25s;
+    }
+    nav a::after{
+      content:"";position:absolute;left:0;bottom:0;width:0;height:2px;border-radius:999px;
+      background:linear-gradient(to right,var(--teal),var(--pink));transition:width .25s;
+    }
+    nav a:hover{color:#e5e7eb;transform:translateY(-2px);}
+    nav a:hover::after{width:100%;}
+    .nav-cta{
+      padding:.45rem .95rem;border-radius:999px;border:1px solid rgba(148,163,184,.35);
+      font-size:.8rem;text-transform:uppercase;letter-spacing:.09em;cursor:pointer;
+      background:radial-gradient(circle at top left,rgba(0,228,208,.2),rgba(255,45,111,.1));
+    }
+    /* layout */
+    main{max-width:1120px;margin:0 auto;padding:3rem 1.5rem 4rem;}
+    section{padding:4rem 0;position:relative;overflow:hidden;}
+    /* global 3D tilt + parallax */
+    .tilt-3d{
+      transform-style:preserve-3d;
+      transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(var(--tz,0));
+      transition:transform .35s ease,box-shadow .35s ease, border-color .35s ease;
+    }
+    .tilt-3d.hovered{box-shadow:0 28px 80px rgba(0,0,0,.9);}
+    .parallax-3d{
+      position:absolute;border-radius:999px;
+      background:radial-gradient(circle at 20% 20%,rgba(0,228,208,.6),rgba(255,45,111,.2));
+      filter:blur(0);opacity:.24;pointer-events:none;
+      transform:translate3d(0,0,0);
+      mix-blend-mode:screen;
+    }
+    .parallax-3d.ring{
+      background:conic-gradient(from 120deg,rgba(0,228,208,.6),rgba(255,45,111,.6),transparent,rgba(0,228,208,.6));
+      border-radius:50%;opacity:.18;filter:blur(1px);
+    }
+    /* hero */
+    .hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:2.5rem;align-items:center;}
+    .hero-kicker{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem;}
+    .hero-title{font-size:clamp(2.4rem,4vw,3.4rem);font-weight:800;line-height:1.1;margin-bottom:.75rem;}
+    .highlight{background:linear-gradient(135deg,var(--teal),var(--pink));-webkit-background-clip:text;color:transparent;}
+    .hero-subtitle{font-size:1rem;color:var(--muted);max-width:34rem;line-height:1.6;margin-bottom:1.6rem;}
+    .hero-buttons{display:flex;flex-wrap:wrap;gap:.9rem;margin-bottom:1.6rem;}
+    .btn-primary,.btn-ghost{
+      border-radius:999px;padding:.7rem 1.3rem;font-size:.9rem;font-weight:500;cursor:pointer;
+      border:1px solid transparent;display:inline-flex;align-items:center;gap:.4rem;
+      transition:transform .25s,box-shadow .25s,background .25s,color .25s,border-color .25s;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--teal),var(--pink));color:#020617;
+      box-shadow:0 16px 40px rgba(0,228,208,.65);
+    }
+    .btn-primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 24px 60px rgba(0,228,208,.8);}
+    .btn-ghost{background:transparent;border-color:rgba(148,163,184,.6);color:var(--muted);}
+    .btn-ghost:hover{background:rgba(15,23,42,.8);color:#e5e7eb;transform:translateY(-2px);}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:1.4rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);}
+    .hero-meta strong{color:#e5e7eb;}
+    .hero-3d{position:relative;perspective:1200px;}
+    .glass-card{
+      position:relative;border-radius:18px;padding:1.6rem 1.4rem;
+      background:radial-gradient(circle at top left,rgba(0,228,208,.22),transparent 45%),
+                 radial-gradient(circle at bottom right,rgba(255,45,111,.2),transparent 55%),
+                 linear-gradient(135deg,rgba(17,24,39,.95),rgba(15,23,42,.95));
+      border:1px solid rgba(148,163,184,.4);
+      box-shadow:0 24px 60px rgba(0,0,0,.7);
+    }
+    .badge-row{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.9rem;text-transform:uppercase;letter-spacing:.16em;}
+    .status{display:inline-flex;align-items:center;gap:.3rem;}
+    .status-dot{width:8px;height:8px;border-radius:999px;background:var(--teal);box-shadow:0 0 12px rgba(0,228,208,.9);}
+    .dev-title{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--pink);margin-bottom:.4rem;}
+    .dev-name{font-size:1.4rem;font-weight:700;margin-bottom:.4rem;}
+    .dev-stack{font-size:.85rem;color:var(--muted);margin-bottom:.8rem;}
+    .skill-tags{display:flex;flex-wrap:wrap;gap:.4rem;}
+    .skill-tag{font-size:.75rem;border-radius:999px;padding:.2rem .65rem;border:1px solid rgba(148,163,184,.6);background:rgba(15,23,42,.9);}
+    .orbit{position:absolute;inset:-26px;border-radius:999px;border:1px dashed rgba(148,163,184,.4);
+      transform-style:preserve-3d;transform:rotateX(75deg) rotateZ(5deg);}
+    .orbit-dot{position:absolute;width:10px;height:10px;border-radius:50%;
+      background:radial-gradient(circle,var(--pink),var(--teal));box-shadow:0 0 14px rgba(255,45,111,.9);
+      animation:orbitMove 8s linear infinite;}
+    @keyframes orbitMove{
+      0%{transform:rotateZ(0deg) translateX(96%);}
+      100%{transform:rotateZ(360deg) translateX(96%);}
+    }
+    .floating-chip{
+      position:absolute;right:-10px;bottom:-10px;padding:.5rem .85rem;
+      font-size:.7rem;border-radius:12px;
+      background:linear-gradient(135deg,rgba(0,228,208,.9),rgba(255,45,111,.95));
+      color:#020617;text-transform:uppercase;letter-spacing:.18em;
+      box-shadow:0 16px 35px rgba(0,0,0,.9);
+    }
+    /* section headers */
+    .section-header{max-width:680px;margin-bottom:2.5rem;position:relative;z-index:2;}
+    .section-kicker{font-size:.75rem;letter-spacing:.24em;text-transform:uppercase;color:var(--teal);margin-bottom:.3rem;}
+    .section-title{font-size:1.7rem;font-weight:700;margin-bottom:.5rem;}
+    .section-subtitle{font-size:.95rem;color:var(--muted);max-width:480px;}
+    /* about */
+    .about-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:2rem;align-items:flex-start;position:relative;z-index:2;}
+    .about-text p{margin-bottom:1rem;line-height:1.7;color:#e5e7eb;font-size:.97rem;}
+    .about-highlights{list-style:none;margin-top:.5rem;display:grid;gap:.6rem;font-size:.9rem;color:var(--muted);}
+    .about-highlights li::before{content:"▹";color:var(--pink);margin-right:6px;}
+    .about-card{
+      border-radius:18px;padding:1.4rem;border:1px solid rgba(55,65,81,.8);
+      background:radial-gradient(circle at top,rgba(0,228,208,.2),transparent 55%),#050814;
+      box-shadow:0 24px 60px rgba(0,0,0,.7);
+    }
+    .about-card h3{font-size:1.05rem;margin-bottom:.6rem;}
+    .about-card small{display:block;color:var(--muted);margin-bottom:.7rem;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;}
+    .about-stats{display:flex;gap:1rem;margin-top:.7rem;font-size:.8rem;color:var(--muted);}
+    .about-stat strong{display:block;font-size:1.1rem;color:#e5e7eb;}
+    /* skills */
+    .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.2rem;position:relative;z-index:2;}
+    .skill-card{
+      border-radius:16px;padding:1rem;border:1px solid rgba(55,65,81,.8);
+      background:linear-gradient(145deg,rgba(15,23,42,.96),rgba(17,24,39,.96));
+      box-shadow:0 18px 50px rgba(15,23,42,.9);
+      position:relative;overflow:hidden;
+    }
+    .skill-title{font-size:.95rem;margin-bottom:.4rem;}
+    .skill-level{font-size:.75rem;text-transform:uppercase;letter-spacing:.16em;color:var(--teal);margin-bottom:.7rem;}
+    .skill-bar{width:100%;height:4px;border-radius:999px;background:rgba(31,41,55,.9);overflow:hidden;margin-bottom:.4rem;}
+    .skill-bar-inner{height:100%;border-radius:inherit;background:linear-gradient(to right,var(--teal),var(--pink));width:var(--value,70%);}
+    .skill-info{font-size:.78rem;color:var(--muted);}
+    /* projects */
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.6rem;position:relative;z-index:2;}
+    .project-card{
+      position:relative;border-radius:18px;padding:1.2rem 1.1rem 1.3rem;
+      border:1px solid rgba(55,65,81,.85);
+      background:radial-gradient(circle at top left,rgba(0,228,208,.22),transparent 55%),
+                 radial-gradient(circle at bottom right,rgba(255,45,111,.16),transparent 60%),
+                 #050814;
+      box-shadow:0 24px 60px rgba(0,0,0,.7);
+    }
+    .project-label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:.4rem;}
+    .project-title{font-size:1.05rem;margin-bottom:.35rem;}
+    .project-desc{font-size:.85rem;color:var(--muted);margin-bottom:.6rem;line-height:1.6;}
+    .project-meta{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-bottom:.6rem;}
+    .project-tags{display:flex;flex-wrap:wrap;gap:.35rem;font-size:.72rem;margin-bottom:.4rem;}
+    .project-tag{border-radius:999px;padding:.15rem .5rem;border:1px solid rgba(148,163,184,.7);background:rgba(15,23,42,.9);}
+    .project-links{display:flex;gap:.5rem;font-size:.8rem;}
+    .project-links a{opacity:.85;}
+    .project-links a:hover{opacity:1;color:var(--teal);}
+    .project-ribbon{
+      position:absolute;right:-40px;top:14px;padding:.2rem 1.8rem;
+      background:linear-gradient(135deg,rgba(0,228,208,.9),rgba(255,45,111,.9));
+      font-size:.7rem;text-transform:uppercase;letter-spacing:.16em;transform:rotate(30deg);
+      color:#020617;box-shadow:0 16px 35px rgba(0,0,0,.8);
+    }
+    /* contact */
+    .contact-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:2rem;position:relative;z-index:2;}
+    .contact-text p{color:var(--muted);font-size:.95rem;line-height:1.7;margin-bottom:1rem;}
+    .contact-meta{display:grid;gap:.4rem;font-size:.9rem;color:var(--muted);margin-bottom:1.4rem;}
+    .contact-meta strong{color:#e5e7eb;}
+    form{display:grid;gap:.9rem;}
+    label{font-size:.8rem;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);}
+    input,textarea{
+      width:100%;border-radius:12px;border:1px solid rgba(55,65,81,.9);
+      padding:.65rem .85rem;background:rgba(15,23,42,.9);color:var(--text);
+      font-size:.9rem;outline:none;transition:border-color .25s,box-shadow .25s,background .25s;
+    }
+    input:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 1px rgba(0,228,208,.4);background:#020617;}
+    textarea{resize:vertical;min-height:140px;}
+    .contact-card{
+      border-radius:18px;padding:1.4rem;
+      background:radial-gradient(circle at top left,rgba(0,228,208,.26),transparent 55%),#050814;
+      border:1px solid rgba(55,65,81,.9);box-shadow:0 24px 60px rgba(0,0,0,.7);
+      position:relative;overflow:hidden;
+    }
+    .contact-card h3{font-size:1.05rem;margin-bottom:.4rem;}
+    .contact-logs{margin-top:1rem;max-height:140px;overflow:auto;font-size:.8rem;padding-right:.4rem;color:var(--muted);}
+    .contact-log-line{margin-bottom:.4rem;}
+    /* footer */
+    footer{border-top:1px solid rgba(31,41,55,.9);padding:1.3rem 1.5rem 2rem;font-size:.75rem;color:var(--muted);}
+    .footer-inner{max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:.8rem;align-items:center;}
+    .footer-links{display:flex;gap:.7rem;}
+    .footer-links a:hover{color:var(--teal);}
+    /* responsive */
+    @media(max-width:900px){
+      .hero,.about-grid,.contact-grid{grid-template-columns:minmax(0,1fr);}
+      .hero-3d{order:-1;}
+    }
+    @media(max-width:640px){
+      nav ul{display:none;}
+      main{padding-inline:1.1rem;}
+      section{padding-block:3rem;}
+      .hero-title{font-size:2.15rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-track"><div class="scroll-dot" id="scrollDot"></div></div>
+
+  <div class="loader-overlay" id="loader">
+    <div class="loader-cube tilt-3d">
+      <div class="cube-face">AP</div>
+      <div class="cube-face">AP</div>
+      <div class="cube-face">AP</div>
+      <div class="cube-face">AP</div>
+      <div class="cube-face">AP</div>
+      <div class="cube-face">AP</div>
+    </div>
+    <div class="loader-text">crafting your portfolio</div>
+    <div class="loader-bar"><div class="loader-bar-inner"></div></div>
+  </div>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo tilt-3d">
+        <div class="logo-badge">A</div>
+        <span>Ankit&nbsp;Padhiyar</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><button class="nav-cta" onclick="scrollToContact()">Let's talk ↗</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="hero" class="hero">
+      <div class="parallax-3d" style="width:260px;height:260px;right:-60px;top:-40px;"></div>
+      <div class="parallax-3d ring" style="width:320px;height:320px;left:-120px;bottom:-120px;"></div>
+
+      <div>
+        <div class="hero-kicker">Front-end & logical mind</div>
+        <h1 class="hero-title">Hi, I'm <span class="highlight">Ankit Padhiyar</span>,<br/>a web developer who loves clean UI & smart logic.</h1>
+        <p class="hero-subtitle">
+          I build responsive, interactive experiences using <strong>HTML, CSS, JavaScript, C, and Python</strong>. From utilities like calculators and password generators to mini-games like Tic-Tac-Toe, I enjoy turning ideas into working, beautiful products.
+        </p>
+        <div class="hero-buttons">
+          <button class="btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">View my projects</button>
+          <button class="btn-ghost" onclick="scrollToContact()">Contact me</button>
+        </div>
+        <div class="hero-meta">
+          <span><strong>Focus:</strong> Web interfaces & logic</span>
+          <span><strong>Based in:</strong> India</span>
+        </div>
+      </div>
+      <div class="hero-3d">
+        <div class="glass-card tilt-3d">
+          <div class="badge-row">
+            <span>Portfolio v1.0</span>
+            <span class="status"><span class="status-dot"></span>Available for work</span>
+          </div>
+          <div class="dev-title">Full stack curious</div>
+          <div class="dev-name">Ankit Padhiyar</div>
+          <div class="dev-stack">HTML • CSS • JavaScript • C • Python</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Clean UI / UX</span>
+            <span class="skill-tag">Reusable components</span>
+            <span class="skill-tag">Problem solving</span>
+            <span class="skill-tag">Game logic</span>
+          </div>
+          <div class="orbit"><div class="orbit-dot"></div></div>
+          <div class="floating-chip">LIVE CODE</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="parallax-3d" style="width:220px;height:220px;left:-80px;top:-60px;"></div>
+      <div class="parallax-3d ring" style="width:260px;height:260px;right:-120px;bottom:-160px;"></div>
+
+      <div class="section-header">
+        <div class="section-kicker">About me</div>
+        <h2 class="section-title">A developer who loves both design and logic.</h2>
+        <p class="section-subtitle">I enjoy building interfaces that are simple on the outside but powered by clear, reliable code inside.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I’m Ankit Padhiyar, a web developer who combines <strong>front-end skills</strong> with a strong foundation in <strong>C and Python</strong>. I like taking ideas from a blank screen to a complete experience — whether it’s a small utility, a learning project, or a full portfolio.
+          </p>
+          <p>
+            My work often starts with a sketch of the interface, then I build the structure in HTML, bring it to life with CSS, and make it interactive using JavaScript. I also use C and Python to sharpen my algorithmic thinking and solve more complex problems.
+          </p>
+          <p>Some things that describe the way I work:</p>
+          <ul class="about-highlights">
+            <li>Focus on readability and well-structured code.</li>
+            <li>Responsive layouts that work on desktop and mobile.</li>
+            <li>Curious about performance, accessibility and best practices.</li>
+            <li>Always learning through new mini-projects and experiments.</li>
+          </ul>
+        </div>
+        <div class="about-card tilt-3d">
+          <small>Snapshot</small>
+          <h3>Quick profile</h3>
+          <p>Web developer with a passion for clean layouts, subtle animations and logical features like calculators, games and utilities.</p>
+          <div class="about-stats">
+            <div class="about-stat"><strong>5+</strong>Mini projects</div>
+            <div class="about-stat"><strong>3+</strong>Core languages</div>
+            <div class="about-stat"><strong>∞</strong>Curiosity</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="parallax-3d" style="width:260px;height:260px;right:-120px;top:-80px;"></div>
+      <div class="parallax-3d ring" style="width:240px;height:240px;left:-120px;bottom:-140px;"></div>
+
+      <div class="section-header">
+        <div class="section-kicker">Skills</div>
+        <h2 class="section-title">Tools and languages I enjoy using.</h2>
+        <p class="section-subtitle">From structuring content to styling and adding logic, these are the main technologies I work with.</p>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card tilt-3d">
+          <div class="skill-title">HTML</div>
+          <div class="skill-level">Structure & semantics</div>
+          <div class="skill-bar"><div class="skill-bar-inner" style="--value:90%"></div></div>
+          <div class="skill-info">Clean, semantic layouts, reusable sections, and accessibility-aware markup.</div>
+        </div>
+        <div class="skill-card tilt-3d">
+          <div class="skill-title">CSS</div>
+          <div class="skill-level">Layouts & animations</div>
+          <div class="skill-bar"><div class="skill-bar-inner" style="--value:88%"></div></div>
+          <div class="skill-info">Responsive design, grid/flexbox, gradients, and subtle 3D effects like the ones on this page.</div>
+        </div>
+        <div class="skill-card tilt-3d">
+          <div class="skill-title">JavaScript</div>
+          <div class="skill-level">Logic & interaction</div>
+          <div class="skill-bar"><div class="skill-bar-inner" style="--value:82%"></div></div>
+          <div class="skill-info">DOM manipulation, event handling, and building utilities like calculators and games.</div>
+        </div>
+        <div class="skill-card tilt-3d">
+          <div class="skill-title">C</div>
+          <div class="skill-level">Core programming</div>
+          <div class="skill-bar"><div class="skill-bar-inner" style="--value:75%"></div></div>
+          <div class="skill-info">Strong base in memory, loops, and logic that transfers to any other language.</div>
+        </div>
+        <div class="skill-card tilt-3d">
+          <div class="skill-title">Python</div>
+          <div class="skill-level">Scripting & problem solving</div>
+          <div class="skill-bar"><div class="skill-bar-inner" style="--value:78%"></div></div>
+          <div class="skill-info">Small scripts, practice problems, and ideas that turn quickly into working prototypes.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="parallax-3d" style="width:260px;height:260px;left:-140px;top:-80px;"></div>
+      <div class="parallax-3d ring" style="width:260px;height:260px;right:-120px;bottom:-150px;"></div>
+
+      <div class="section-header">
+        <div class="section-kicker">Projects</div>
+        <h2 class="section-title">Small projects, big learning.</h2>
+        <p class="section-subtitle">A selection of projects built using HTML, CSS, JavaScript, C and Python. These help me practice UI, logic and problem solving.</p>
+      </div>
+      <div class="projects-grid">
+        <article class="project-card tilt-3d">
+          <div class="project-ribbon">Utility</div>
+          <div class="project-label">Featured project</div>
+          <h3 class="project-title">Smart Calculator</h3>
+          <p class="project-desc">A clean, keyboard-friendly calculator built with HTML, CSS and JavaScript. Supports basic operations, keyboard input and a history of recent calculations.</p>
+          <div class="project-meta"><span>Tech: HTML · CSS · JS</span><span>Role: Solo build</span></div>
+          <div class="project-tags"><span class="project-tag">Responsive</span><span class="project-tag">Keyboard shortcuts</span></div>
+          <div class="project-links"><a href="#">Live demo ↗</a><a href="#">Source code ⇢</a></div>
+        </article>
+        <article class="project-card tilt-3d">
+          <div class="project-label">Security tool</div>
+          <h3 class="project-title">Password Generator</h3>
+          <p class="project-desc">Generates strong random passwords with options for length, symbols, numbers and uppercase letters. Includes strength indicator and copy to clipboard.</p>
+          <div class="project-meta"><span>Tech: HTML · CSS · JS</span><span>Focus: Logic & UX</span></div>
+          <div class="project-tags"><span class="project-tag">Randomization</span><span class="project-tag">Clipboard API</span></div>
+          <div class="project-links"><a href="#">Live demo ↗</a><a href="#">Source code ⇢</a></div>
+        </article>
+        <article class="project-card tilt-3d">
+          <div class="project-label">Mini game</div>
+          <h3 class="project-title">XO Game (Tic-Tac-Toe)</h3>
+          <p class="project-desc">Classic Tic-Tac-Toe game with smart win detection, turn highlights and reset functionality. Designed with a neon board look inspired by this portfolio’s colors.</p>
+          <div class="project-meta"><span>Tech: HTML · CSS · JS</span><span>Mode: Player vs Player</span></div>
+          <div class="project-tags"><span class="project-tag">Game logic</span><span class="project-tag">Animations</span></div>
+          <div class="project-links"><a href="#">Play online ↗</a><a href="#">Source code ⇢</a></div>
+        </article>
+        <article class="project-card tilt-3d">
+          <div class="project-label">Practice project</div>
+          <h3 class="project-title">Weather & Time Dashboard</h3>
+          <p class="project-desc">Concept project combining a live clock and a simple weather view. Designed to practice API usage, asynchronous JavaScript and dashboard layouts.</p>
+          <div class="project-meta"><span>Tech: HTML · CSS · JS · API</span><span>Status: In progress</span></div>
+          <div class="project-tags"><span class="project-tag">API practice</span><span class="project-tag">Dashboard UI</span></div>
+          <div class="project-links"><a href="#">Preview ↗</a><a href="#">Notes ⇢</a></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="parallax-3d" style="width:260px;height:260px;right:-120px;top:-80px;"></div>
+      <div class="parallax-3d ring" style="width:260px;height:260px;left:-120px;bottom:-160px;"></div>
+
+      <div class="section-header">
+        <div class="section-kicker">Contact</div>
+        <h2 class="section-title">Let’s build something together.</h2>
+        <p class="section-subtitle">Have a project idea, collaboration, or question? Send a message and I’ll get back as soon as I can.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-text">
+          <p>I’m open to internship opportunities, freelance work, and collaborations where I can use my skills in HTML, CSS, JavaScript, C and Python. I enjoy projects that mix good UI with interesting logic.</p>
+          <div class="contact-meta">
+            <span><strong>Name:</strong> Ankit Padhiyar</span>
+            <span><strong>Location:</strong> India</span>
+            <span><strong>Focus:</strong> Web development & problem solving</span>
+          </div>
+          <form id="contactForm">
+            <div>
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="name" placeholder="John Doe" required />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required />
+            </div>
+            <div>
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Tell me about your idea or project..." required></textarea>
+            </div>
+            <button type="submit" class="btn-primary">Send message</button>
+          </form>
+        </div>
+        <div class="contact-card tilt-3d">
+          <h3>Mini 3D contact card</h3>
+          <p style="font-size:.9rem;color:var(--muted);">
+            This card acts like a small dashboard for your messages. In a real setup this could show live notifications from email or a database.
+          </p>
+          <div class="contact-logs" id="contactLogs"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>© <span id="year"></span> Ankit Padhiyar. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="#hero">Back to top ↑</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // loader
+    window.addEventListener("load", function () {
+      setTimeout(function () {
+        document.getElementById("loader").classList.add("loader-hidden");
+      }, 900);
+    });
+
+    // scroll progress
+    const scrollDot = document.getElementById("scrollDot");
+    function updateScrollDot() {
+      const scrollTop = window.scrollY || window.pageYOffset;
+      const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+      const dotWidth = scrollDot.offsetWidth || 8;
+      const maxX = viewportWidth - dotWidth;
+      scrollDot.style.transform = "translateX(" + progress * maxX + "px)";
+    }
+    window.addEventListener("scroll", updateScrollDot);
+    window.addEventListener("resize", updateScrollDot);
+    updateScrollDot();
+
+    // smooth scroll helper
+    function scrollToContact() {
+      document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+    }
+    window.scrollToContact = scrollToContact;
+
+    // 3D tilt effect
+    const tiltElements = document.querySelectorAll(".tilt-3d");
+    tiltElements.forEach((el) => {
+      el.addEventListener("mousemove", (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const midX = rect.width / 2;
+        const midY = rect.height / 2;
+        const rotateX = ((y - midY) / midY) * -8;
+        const rotateY = ((x - midX) / midX) * 8;
+        el.style.setProperty("--rx", rotateX + "deg");
+        el.style.setProperty("--ry", rotateY + "deg");
+        el.style.setProperty("--tz", "18px");
+        el.classList.add("hovered");
+      });
+      el.addEventListener("mouseleave", () => {
+        el.style.setProperty("--rx", "0deg");
+        el.style.setProperty("--ry", "0deg");
+        el.style.setProperty("--tz", "0px");
+        el.classList.remove("hovered");
+      });
+    });
+
+    // parallax 3D blobs
+    const parallaxShapes = document.querySelectorAll(".parallax-3d");
+    window.addEventListener("mousemove", (e) => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const x = (e.clientX - w / 2) / w;
+      const y = (e.clientY - h / 2) / h;
+      parallaxShapes.forEach((shape, index) => {
+        const depth = (index + 1) * 8;
+        const translateX = -x * depth;
+        const translateY = -y * depth;
+        shape.style.transform = "translate3d(" + translateX + "px," + translateY + "px,0)";
+      });
+    });
+
+    // contact form demo
+    const contactForm = document.getElementById("contactForm");
+    const contactLogs = document.getElementById("contactLogs");
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const timestamp = new Date().toLocaleString();
+      const logLine = document.createElement("div");
+      logLine.className = "contact-log-line";
+      logLine.textContent =
+        "[" + timestamp + "] " +
+        (name || "Someone") + " (" + (email || "no email") +
+        ") wrote: " + message.substring(0, 90) + (message.length > 90 ? "..." : "");
+      contactLogs.prepend(logLine);
+      alert("Thanks, " + (name || "friend") + "! This demo doesn’t send real emails, but your message was captured in the log on the right.");
+      contactForm.reset();
+    });
+
+    // footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
