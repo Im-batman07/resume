@@ -775,9 +775,130 @@ profile-card-container{
       section{padding-block:3.2rem;}
       .hero-title{font-size:2.3rem;}
     }
+     /* Chat button */
+  .chat-btn {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: linear-gradient(135deg,#00e4d0,#ff2d6f);
+    display: grid;
+    place-items: center;
+    color: #021018;
+    font-weight: 800;
+    box-shadow: 0 12px 30px rgba(0,0,0,.45), 0 0 18px rgba(0,228,208,.12);
+    cursor: pointer;
+    z-index: 99999;
+    transition: transform .18s ease, box-shadow .18s ease;
+    border: none;
+    outline: none;
+  }
+  .chat-btn:hover { transform: translateY(-6px) scale(1.05); box-shadow: 0 18px 40px rgba(0,0,0,.55), 0 0 32px rgba(0,228,208,.18); }
+  .chat-btn:active { transform: translateY(-2px) scale(.99); }
+
+  /* chat panel container */
+  .chat-panel {
+    position: fixed;
+    right: 20px;
+    bottom: 96px;
+    width: 360px;
+    max-width: calc(100% - 40px);
+    height: 520px;
+    max-height: calc(100% - 140px);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(6,8,12,0.98), rgba(10,12,16,0.98));
+    box-shadow: 0 32px 80px rgba(0,0,0,.85), 0 8px 30px rgba(0,0,0,.55);
+    display: none; /* toggled via JS */
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 99998;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+
+  /* header */
+  .chat-header {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    border-bottom:1px solid rgba(255,255,255,0.03);
+    background:linear-gradient(90deg, rgba(0,228,208,0.03), rgba(255,45,111,0.02));
+    color: #e6fbf7;
+  }
+  .chat-header .who { font-weight:700; font-size:0.98rem; }
+  .chat-header .subtitle { color: #bcded7; font-size:0.83rem; font-weight:600; opacity:.9; }
+  .chat-close { margin-left:auto; background:transparent; border:0; color:#dfeffb; cursor:pointer; font-size:16px; padding:6px; border-radius:8px; }
+  .chat-close:hover{ background: rgba(255,255,255,0.02); }
+
+  /* messages */
+  .chat-body { flex:1; padding:12px; overflow:auto; display:flex; flex-direction:column; gap:10px; }
+  .msg { max-width:82%; padding:10px 12px; border-radius:12px; line-height:1.35; font-size:0.95rem; }
+  .msg.user { margin-left:auto; background: linear-gradient(135deg, rgba(0,228,208,0.12), rgba(255,45,111,0.06)); color:#e9fff9; border:1px solid rgba(0,228,208,0.08); }
+  .msg.bot { margin-right:auto; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); color:#dfeef1; border:1px solid rgba(255,255,255,0.02); }
+  .msg .time { display:block; font-size:0.72rem; color:rgba(255,255,255,0.42); margin-top:6px; }
+
+  /* input area */
+  .chat-input {
+    padding:10px;
+    border-top:1px solid rgba(255,255,255,0.03);
+    display:flex; gap:8px;
+    background: linear-gradient(180deg, rgba(6,8,12,0.98), rgba(8,10,14,0.98));
+  }
+  .chat-input input[type="text"]{
+    flex:1;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.04);
+    background: rgba(0,0,0,0.25);
+    color: #eafafa;
+    outline: none;
+    font-size:0.95rem;
+  }
+  .chat-input input:focus { box-shadow:0 0 12px rgba(0,228,208,0.06); border-color: rgba(0,228,208,0.14); }
+  .chat-input button { padding:10px 12px; border-radius:10px; border:none; cursor:pointer; background:linear-gradient(135deg,#00e4d0,#ff2d6f); color:#021018; font-weight:700; }
+
+  /* typing indicator */
+  .typing {
+    display:inline-flex; gap:6px; align-items:center;
+  }
+  .dot { width:7px; height:7px; border-radius:50%; background:#9ef0e2; opacity:.8; animation:blink 1.3s infinite; }
+  .dot:nth-child(2){ animation-delay:.12s; opacity:.65; transform:scale(.85); }
+  .dot:nth-child(3){ animation-delay:.22s; opacity:.5; transform:scale(.75); }
+  @keyframes blink { 0%{ opacity:.1 } 50%{ opacity:1 } 100%{ opacity:.1 } }
+
+  /* small screens */
+  @media(max-width:520px){
+    .chat-panel { right:12px; left:12px; bottom:88px; width: auto; height:54vh; max-height:72vh; }
+    .chat-btn { right:12px; bottom:12px; }
+  }
   </style>
 </head>
 <body>
+  
+<!-- floating chat button -->
+<button id="chatToggle" class="chat-btn" aria-label="Open chat">💬</button>
+
+<!-- chat panel (hidden by default) -->
+<div id="chatPanel" class="chat-panel" role="dialog" aria-label="Portfolio helper chat">
+  <div class="chat-header">
+    <div>
+      <div class="who">Ankit's Assistant 🤖</div>
+      <div class="subtitle">Ask me about the portfolio — friendly & quick!</div>
+    </div>
+    <button id="chatClose" class="chat-close" aria-label="Close chat">✕</button>
+  </div>
+
+  <div id="chatBody" class="chat-body" aria-live="polite"></div>
+
+  <div class="chat-input">
+    <input id="chatInput" type="text" placeholder="Ask about projects, skills or contact (try: 'projects')" />
+    <button id="chatSend">Send</button>
+  </div>
+</div>
+
   <!-- scroll progress -->
   <div class="scroll-track"><div class="scroll-dot" id="scrollDot"></div></div>
 
@@ -1449,7 +1570,231 @@ profile-card-container{
     }
   });
 })();
+/* -------------------------
+  Client-side portfolio chatbot
+  No external API — rule-based and keyword driven
+---------------------------- */
 
+(function(){
+
+  // Path to portfolio file (local path saved on server/dev environment).
+  // Developer note: this local file path was provided earlier and can be converted to a URL on your hosting system.
+  const portfolioUrl = "/mnt/data/index_final.html";
+
+  // Basic knowledge about the portfolio (customize as needed)
+  const KB = {
+    name: "Ankit Padhiyar",
+    email: "ankitpadhiyar018@gmail.com",
+    location: "India",
+    skills: ["HTML", "CSS", "JavaScript", "C", "Python"],
+    projects: [
+      { title: "Smart Calculator", tech: "HTML · CSS · JS", demo: "https://example.com/calculator" },
+      { title: "Password Generator", tech: "HTML · CSS · JS", demo: "https://example.com/password-generator" },
+      { title: "XO Game (Tic-Tac-Toe)", tech: "HTML · CSS · JS", demo: "https://example.com/tictactoe" },
+      { title: "Weather & Time Dashboard", tech: "HTML · CSS · JS · API", demo: "https://example.com/dashboard" }
+    ],
+    socials: {
+      facebook: "https://facebook.com/placeholder",
+      instagram: "https://instagram.com/placeholder",
+      github: "https://github.com/placeholder",
+      youtube: "https://youtube.com/placeholder",
+      linkedin: "https://linkedin.com/in/placeholder"
+    },
+    about: "I build full-sized interactive experiences and mini projects — calculators, password tools, and small games. I love neon-dark themes and 3D UI flourishes. 😊"
+  };
+
+  // Simple UI references
+  const chatToggle = document.getElementById("chatToggle");
+  const chatPanel = document.getElementById("chatPanel");
+  const chatClose = document.getElementById("chatClose");
+  const chatBody = document.getElementById("chatBody");
+  const chatInput = document.getElementById("chatInput");
+  const chatSend = document.getElementById("chatSend");
+
+  // LocalStorage key
+  const STORAGE_KEY = "ankit_chat_history_v1";
+
+  // Helpers
+  function nowTime(){ const d=new Date(); return d.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"}); }
+  function appendMessage(text, who="bot", time=null){ 
+    const div = document.createElement("div");
+    div.className = "msg " + (who==="user" ? "user" : "bot");
+    div.innerHTML = text + (time ? `<span class="time">${time}</span>` : "");
+    chatBody.appendChild(div);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function saveMessageToStorage(obj){
+    try{
+      const arr = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      arr.push(obj);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+    }catch(e){ console.error("storage err", e); }
+  }
+  function loadHistory(){
+    try{
+      const arr = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      arr.forEach(m => appendMessage(m.html, m.who, m.time));
+    }catch(e){ console.warn("no history", e); }
+  }
+
+  // Basic NLP-ish matcher (keywords -> canned responses). Add more rules here.
+  function generateAnswer(input){
+    const q = (input || "").toLowerCase().trim();
+
+    // direct question patterns
+    if(!q) return { text: "Say hi 👋 — ask me something about this portfolio (skills, projects, contact)." };
+
+    // greetings
+    if(/^(hi|hello|hey|hii|hiya)\b/.test(q)) {
+      return { text: "Hey! I'm Ankit's friendly assistant 😊 — ask me about projects, skills or contact info. Try: 'What projects do you have?'" };
+    }
+
+    // ask name
+    if(q.includes("name") || q.includes("who are you") || q.includes("who is ankit")) {
+      return { text: `This is the portfolio of <strong>${KB.name}</strong>. Nice to meet you! 👋` };
+    }
+
+    // about
+    if(q.includes("about") || q.includes("who") && q.includes("ankit") ) {
+      return { text: KB.about + " 🚀" };
+    }
+
+    // skills
+    if(q.includes("skill") || q.includes("skills") || q.includes("technology") || q.includes("tech")) {
+      return { text: `Core skills: <strong>${KB.skills.join(", ")}</strong>. Perfect for frontend interfaces and logic. 💻` };
+    }
+
+    // projects
+    if(q.includes("project") || q.includes("projects") || q.includes("work")) {
+      const list = KB.projects.map(p => `• <strong>${p.title}</strong> — ${p.tech} — <a href="${p.demo}" target="_blank" rel="noopener">Live demo ↗</a>`).join("<br>");
+      return { text: `Here are some projects:<br>${list}` };
+    }
+
+    // specific project demo
+    if(q.includes("calculator")) { return { text: `Smart Calculator — demo: <a href="${KB.projects[0].demo}" target="_blank">open demo ↗</a> 🔢` }; }
+    if(q.includes("password")) { return { text: `Password Generator — demo: <a href="${KB.projects[1].demo}" target="_blank">open demo ↗</a> 🔒` }; }
+    if(q.includes("tic") || q.includes("xo") || q.includes("tic-tac")) { return { text: `XO Game — demo: <a href="${KB.projects[2].demo}" target="_blank">play ↗</a> 🎮` }; }
+    if(q.includes("weather") || q.includes("dashboard")) { return { text: `Weather & Time Dashboard — preview: <a href="${KB.projects[3].demo}" target="_blank">view ↗</a> ⛅` }; }
+
+    // contact
+    if(q.includes("email") || q.includes("contact") || q.includes("reach")) {
+      return { text: `You can reach Ankit at <strong>${KB.email}</strong> ✉️ — or use the contact form on the site.` };
+    }
+
+    // socials
+    if(q.includes("github") || q.includes("git")) {
+      return { text: `GitHub: <a href="${KB.socials.github}" target="_blank">${KB.socials.github}</a> 🧰` };
+    }
+    if(q.includes("linkedin") || q.includes("link")) {
+      return { text: `LinkedIn: <a href="${KB.socials.linkedin}" target="_blank">${KB.socials.linkedin}</a> 💼` };
+    }
+
+    // portfolio link
+    if(q.includes("portfolio") || q.includes("site") || q.includes("page")) {
+      return { text: `Open the full portfolio here: <a href="${portfolioUrl}" target="_blank">Portfolio</a> 🌐` };
+    }
+
+    // fallback: keyword based attempt
+    const keywords = {
+      "html": "He uses HTML for structure — semantic markup and clean sections.",
+      "css": "CSS is used for styles, animations and the 3D effects you see.",
+      "javascript": "JavaScript adds interactivity — games, calculators and dynamic UI.",
+      "c": "C keeps Ankit sharp on algorithms and low-level thinking.",
+      "python": "Python is used for scripting and algorithm practice.",
+      "demo": "Try asking about a project name, or say 'show projects' to see demos.",
+      "help": "Ask anything about skills, projects or how to contact Ankit. 😊"
+    };
+    for(const k in keywords){
+      if(q.includes(k)){
+        return { text: keywords[k] + " " + (k==="javascript" ? "Try: 'open calculator demo'." : "") };
+      }
+    }
+
+    // last fallback
+    return { text: "Sorry, I didn't get that — but I can help with projects, skills, or contact. Try: 'What projects?' or 'How to contact?'. 🙂" };
+  }
+
+  // typing simulation — returns a Promise that resolves after natural time based on length
+  function simulateReply(responseText){
+    return new Promise(resolve => {
+      const base = Math.min(1200 + responseText.length * 12, 2600);
+      let dots = document.createElement("div");
+      dots.className = "msg bot typing";
+      dots.innerHTML = '<span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>';
+      chatBody.appendChild(dots);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      setTimeout(()=>{ // remove dots and show real
+        dots.remove();
+        resolve();
+      }, base);
+    });
+  }
+
+  // send a user message and produce a bot reply
+  async function handleSend(rawText){
+    const text = (rawText||"").trim();
+    if(!text) return;
+    // show user message
+    appendMessage(escapeHtml(text), "user", nowTime());
+    saveMessageToStorage({ who: "user", html: escapeHtml(text), time: nowTime() });
+
+    chatInput.value = "";
+    chatInput.focus();
+
+    // generate
+    const ansObj = generateAnswer(text);
+    // simulate typing then show
+    await simulateReply(ansObj.text || ansObj);
+    appendMessage(ansObj.text, "bot", nowTime());
+    saveMessageToStorage({ who: "bot", html: ansObj.text, time: nowTime() });
+  }
+
+  // small escape (we allow simple inline anchors)
+  function escapeHtml(s){
+    // naive: allow <a> and <strong>, remove others by encoding
+    return String(s)
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/&lt;a /g,"<a ")
+      .replace(/&lt;\/a&gt;/g,"</a>")
+      .replace(/&lt;strong&gt;/g,"<strong>")
+      .replace(/&lt;\/strong&gt;/g,"</strong>");
+  }
+
+  // events
+  chatToggle.addEventListener("click", () => {
+    const open = chatPanel.style.display === "flex";
+    if(open){
+      chatPanel.style.display = "none";
+    } else {
+      chatPanel.style.display = "flex";
+      chatInput.focus();
+    }
+  });
+
+  chatClose.addEventListener("click", () => { chatPanel.style.display = "none"; });
+  chatSend.addEventListener("click", () => handleSend(chatInput.value));
+  chatInput.addEventListener("keydown", (e) => { if(e.key === "Enter"){ e.preventDefault(); handleSend(chatInput.value);} });
+
+  // initial load
+  chatPanel.style.display = "none";
+  loadHistory();
+
+  // welcome message if no history
+  try{
+    const hist = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    if(!hist || hist.length === 0){
+      (async ()=>{
+        await simulateReply("Hi! I'm Ankit's assistant — ask me anything about this portfolio. 😊");
+        appendMessage("Hi! I'm Ankit's assistant — ask me anything about this portfolio. 😊", "bot", nowTime());
+        saveMessageToStorage({ who:"bot", html:"Hi! I'm Ankit's assistant — ask me anything about this portfolio. 😊", time: nowTime() });
+      })();
+    }
+  }catch(e){ console.log("err",e); }
+
+})();
   </script>
 </body>
 </html>
