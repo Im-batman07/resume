@@ -248,69 +248,133 @@
 
     /* HERO SOCIAL BAR */
    /* Social card grid */
+/* ===== Social card grid ===== */
 .social-card-grid {
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 1.5rem;
-}
-
-/* Base card style */
-.social-card {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: #0a0a0a;
-  border: 1px solid rgba(255,255,255,0.08);
-  display: flex;
+  gap: 12px;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+/* ===== Card base ===== */
+.social-card{
+  --size: 48px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 10px;
+  background: #0b0b0b;
+  border: 1px solid rgba(255,255,255,0.06);
+  display: inline-grid;
+  place-items: center;
   overflow: hidden;
-
-  transition: transform .25s ease, 
-              box-shadow .25s ease, 
-              background .25s ease;
+  position: relative;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s ease, filter .28s ease;
+  will-change: transform, box-shadow;
+  outline: none;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+  /* staggered float entry */
+  animation: floatUp 700ms cubic-bezier(.2,.9,.2,1) both;
+  animation-delay: var(--i, 0s);
 }
 
-/* Icons black & white by default */
-.social-card img {
-  width: 22px;
-  height: 22px;
-  filter: invert(1) grayscale(100%);
-  transition: filter .25s ease;
+/* tiny glossy overlay */
+.social-card::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+  mix-blend-mode: overlay;
 }
 
-/* Hover effects */
-.social-card:hover {
-  transform: translateY(-4px) scale(1.08);
-  box-shadow: 0 0 16px rgba(255,255,255,0.25);
+/* Icon (B/W by default) */
+.social-card img{
+  width: 20px;
+  height: 20px;
+  display:block;
+  filter: invert(1) grayscale(100%) contrast(.9) brightness(1.1);
+  transition: filter .25s ease, transform .22s ease, filter .22s ease;
+  transform-origin:center;
 }
 
-/* Facebook: Color on hover */
-.social-card.fb:hover img {
+/* float gentle (y-axis bobbing) */
+@keyframes bob {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}
+
+/* initial pop-in */
+@keyframes floatUp {
+  0% { transform: translateY(14px) scale(.96); opacity: 0; }
+  60%{ transform: translateY(-6px) scale(1.01); opacity: 1; }
+  100%{ transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* hover / focus state: neon glow + color reveal + 3D lift */
+.social-card:hover,
+.social-card:focus {
+  transform: translateY(-6px) rotateX(4deg) scale(1.08);
+  box-shadow:
+    0 6px 30px rgba(0,0,0,0.6),
+    0 0 18px rgba(0,228,208,0.12),
+    0 0 32px rgba(255,45,111,0.09);
+  z-index: 30;
+  animation: bob 3.8s ease-in-out infinite;
+}
+
+/* show original colored logos on hover/focus (remove filters) */
+.social-card:hover img,
+.social-card:focus img {
   filter: none;
+  transform: scale(1.06);
+  transition: transform .18s ease, filter .18s ease;
 }
 
-/* Instagram gradient on hover */
-.social-card.ig:hover img {
-  filter: none;
+/* extra neon outline using pseudo-element */
+.social-card::before{
+  content:"";
+  position:absolute;
+  inset: -6px;
+  border-radius: 12px;
+  background: radial-gradient(circle at 20% 10%, rgba(0,228,208,0.08), transparent 12%),
+              radial-gradient(circle at 80% 90%, rgba(255,45,111,0.06), transparent 18%);
+  opacity: 0;
+  transition: opacity .28s ease, transform .28s ease;
+  pointer-events:none;
+  transform: scale(.98);
+  z-index: -1;
+}
+.social-card:hover::before,
+.social-card:focus::before{
+  opacity: 1;
+  transform: scale(1.02);
+  filter: blur(10px);
 }
 
-/* GitHub stays original (white/black) */
-.social-card.gh:hover img {
-  filter: none;
+/* brand-specific tiny tint on hover (optional but helps brand color) */
+.social-card.fb:hover::before { box-shadow: 0 0 22px rgba(59,89,152,0.14); }
+.social-card.ig:hover::before { box-shadow: 0 0 26px rgba(225,48,108,0.14), 0 0 36px rgba(254,211,96,0.06); }
+.social-card.gh:hover::before { box-shadow: 0 0 18px rgba(255,255,255,0.06); }
+.social-card.yt:hover::before { box-shadow: 0 0 22px rgba(255,0,0,0.12); }
+.social-card.ln:hover::before { box-shadow: 0 0 22px rgba(10,102,194,0.12); }
+
+/* focus visible (keyboard) */
+.social-card:focus {
+  outline: 3px solid rgba(0,228,208,0.12);
+  outline-offset: 4px;
 }
 
-/* YouTube red */
-.social-card.yt:hover img {
-  filter: none;
+/* responsive smaller size */
+@media (max-width:420px){
+  .social-card { --size:40px; }
+  .social-card img { width:18px; height:18px; }
 }
 
-/* LinkedIn blue */
-.social-card.ln:hover img {
-  filter: none;
-}
 
 
     /* section headers */
