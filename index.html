@@ -791,6 +791,52 @@
   background: linear-gradient(135deg, var(--teal), var(--pink));
   color: #020617;
 }
+    <style>
+.profile-card-container{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+/* Image Cards */
+.profile-card{
+  width:300px;
+  height:380px;
+  border-radius:20px;
+  background-size:300px;
+  background-position:center;
+  background-repeat:no-repeat;
+  transition:all .6s ease;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+}
+
+/* Zoom on Hover */
+.profile-card:hover{
+  background-size:600px;
+}
+
+/* Hover Text */
+.overlay-text{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:15px;
+  text-align:center;
+  background:rgba(0,0,0,0.6);
+  color:white;
+  font-size:1rem;
+  opacity:0;
+  transition:opacity .4s ease;
+}
+
+/* Show Text on Hover */
+.profile-card:hover .overlay-text{
+  opacity:1;
+}
 
 </style>
 </head>
@@ -1216,51 +1262,38 @@
           </form>
         </div>
 
-       <div class="contact-card gallery-card tilt-3d" aria-label="Certificate gallery">
-  <h3>Certificates & Gallery</h3>
-  <p style="font-size:.9rem;color:var(--muted);">
-    A quick gallery of certificates and highlights. Click any image to view full-size,
-    navigate with arrows or use keyboard (← → Esc). Replace <code>cert-1.jpg</code> etc.
-  </p>
+       <div class="image-hover-section tilt-3d">
+  <h3 style="margin-bottom:1rem;">Showcase</h3>
 
-  <!-- gallery thumbnails -->
-  <div class="gallery-grid" id="galleryGrid">
-    <!-- Replace these src values with your actual certificate image paths -->
-    <button class="gallery-thumb" data-src="cert-1.jpg" aria-label="Open certificate 1">
-      <img src="cert-1-thumb.jpg" alt="Certificate 1" />
-    </button>
-    <button class="gallery-thumb" data-src="cert-2.jpg" aria-label="Open certificate 2">
-      <img src="cert-2-thumb.jpg" alt="Certificate 2" />
-    </button>
-    <button class="gallery-thumb" data-src="cert-3.jpg" aria-label="Open certificate 3">
-      <img src="cert-3-thumb.jpg" alt="Certificate 3" />
-    </button>
-    <button class="gallery-thumb" data-src="cert-4.jpg" aria-label="Open certificate 4">
-      <img src="cert-4-thumb.jpg" alt="Certificate 4" />
-    </button>
-    <button class="gallery-thumb" data-src="cert-5.jpg" aria-label="Open certificate 5">
-      <img src="cert-5-thumb.jpg" alt="Certificate 5" />
-    </button>
-    <!-- add more thumbnails as needed -->
-  </div>
+  <div class="profile-card-container">
 
-  <!-- small controls -->
-  <div class="gallery-controls">
-    <label style="font-size:.8rem;color:var(--muted);">Autoplay</label>
-    <input id="galleryAutoplay" type="checkbox" aria-label="Toggle autoplay slideshow" />
-    <button id="openFirstBtn" class="mini-btn" title="Open first image">Open first</button>
-  </div>
-
-  <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image viewer">
-    <button class="lb-close" id="lbClose" aria-label="Close viewer">✕</button>
-    <button class="lb-prev" id="lbPrev" aria-label="Previous image">‹</button>
-    <div class="lb-stage" id="lbStage" role="document">
-      <img id="lbImage" alt="Expanded certificate" />
-      <figcaption id="lbCaption" style="color:var(--muted);font-size:.85rem;margin-top:.6rem;text-align:center;"></figcaption>
+    <!-- KAKASHI IMAGE -->
+    <div class="profile-card" 
+         style="background-image:url('kakashi-hatake-naruto-amoled-black-background-artwork-5120x2880-6484.jpg')">
+      <div class="overlay-text">
+        Ankit Padhiyar <br>
+        ankitpadhiyar018@gmail.com
+      </div>
     </div>
-    <button class="lb-next" id="lbNext" aria-label="Next image">›</button>
-    <div class="lb-autoplay-indicator" id="lbAutoplayIndicator" title="Autoplay running">▶</div>
+
+    <!-- IMAGE 1 -->
+    <div class="profile-card"
+         style="background-image:url('kakashi-hatake-naruto-amoled-black-background-artwork-5120x2880-6484.jpg')">
+      <div class="overlay-text">
+        Ankit Padhiyar <br>
+        ankitpadhiyar018@gmail.com
+      </div>
+    </div>
+
+    <!-- IMAGE 2 -->
+    <div class="profile-card"
+         style="background-image:url('kakashi-hatake-naruto-amoled-black-background-artwork-5120x2880-6484.jpg')">
+      <div class="overlay-text">
+        Ankit Padhiyar <br>
+        ankitpadhiyar018@gmail.com
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1269,7 +1302,7 @@
 
   <footer>
     <div class="footer-inner">
-      <span>© <span id="year"></span> Ankit Padhiyar. All rights reserved.</span>
+      <span>© <span id="year"></span>Ankit Padhiyar. All rights reserved.</span>
       <div class="footer-links">
         <a href="#hero">Back to top ↑</a>
         <a href="#projects">Projects</a>
