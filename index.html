@@ -598,11 +598,147 @@
     }
     input:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 1px rgba(0,228,208,.4);background:#020617;}
     textarea{resize:vertical;min-height:140px;}
-    .contact-card{
-      border-radius:18px;padding:1.4rem;
-      background:radial-gradient(circle at top left,rgba(0,228,208,.26),transparent 55%),#050814;
-      border:1px solid rgba(55,65,81,.9);box-shadow:0 24px 60px rgba(0,0,0,.7);
-      position:relative;overflow:hidden;
+  /* --- Gallery card styles (fits your neon/3D theme) --- */
+.gallery-card { 
+  border-radius:18px;
+  padding:1.2rem;
+  background: radial-gradient(circle at top left, rgba(0,228,208,.10), transparent 45%),
+              linear-gradient(135deg, rgba(10,12,16,.95), rgba(6,8,12,.95));
+  border:1px solid rgba(148,163,184,.12);
+  box-shadow: 0 22px 48px rgba(0,0,0,.7);
+  overflow:visible;
+}
+
+/* gallery grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap:10px;
+  margin-top:10px;
+}
+.gallery-thumb {
+  width:100%;
+  padding:0;
+  border-radius:10px;
+  overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  border:1px solid rgba(255,255,255,0.03);
+  cursor:pointer;
+  display:inline-grid;
+  place-items:center;
+  transform-origin:center;
+  transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
+  outline:none;
+}
+.gallery-thumb img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  filter: grayscale(20%) contrast(.95) saturate(.95);
+  transition: transform .28s ease, filter .28s ease;
+}
+.gallery-thumb:hover, .gallery-thumb:focus {
+  transform: translateY(-6px) rotateX(4deg) scale(1.03);
+  box-shadow: 0 18px 40px rgba(0,0,0,.6), 0 0 18px rgba(0,228,208,0.06);
+}
+.gallery-thumb:hover img, .gallery-thumb:focus img {
+  filter: none;
+  transform: scale(1.05);
+}
+
+/* responsive tweak */
+@media (max-width:720px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap:8px; }
+}
+@media (max-width:420px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap:6px; }
+}
+
+/* mini controls */
+.gallery-controls {
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-top:12px;
+}
+.gallery-controls .mini-btn {
+  background:transparent;
+  color:var(--muted);
+  border:1px solid rgba(148,163,184,0.08);
+  padding:.45rem .7rem;
+  border-radius:8px;
+  cursor:pointer;
+}
+.gallery-controls input[type="checkbox"] { width:18px; height:18px; cursor:pointer; }
+
+/* --- Lightbox --- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  display: none; /* shown by JS */
+  align-items: center;
+  justify-content: center;
+  background: rgba(2,4,8,0.82);
+  z-index: 3000;
+  padding: 28px;
+}
+.lightbox[aria-hidden="false"] { display:flex; }
+
+.lb-stage {
+  max-width: min(1100px, 96%);
+  max-height: 86vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.lb-stage img {
+  max-width: 100%;
+  max-height: calc(86vh - 60px);
+  border-radius:12px;
+  box-shadow: 0 28px 80px rgba(0,0,0,.9);
+  transform-origin:center;
+  transition: transform .28s ease;
+}
+
+/* nav buttons */
+.lb-close, .lb-prev, .lb-next {
+  position: absolute;
+  background: linear-gradient(135deg,var(--teal),var(--pink));
+  color:#020617;
+  border: none;
+  padding: .6rem .7rem;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:1.05rem;
+  box-shadow: 0 16px 45px rgba(0,0,0,.6);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.lb-close { top:20px; right:26px; }
+.lb-prev { left:28px; top:50%; transform:translateY(-50%); }
+.lb-next { right:28px; top:50%; transform:translateY(-50%); }
+
+.lb-close:hover, .lb-prev:hover, .lb-next:hover { transform: translateY(-3px) scale(1.04); }
+
+/* autoplay indicator */
+.lb-autoplay-indicator {
+  position:absolute;
+  left:26px;
+  bottom:26px;
+  background: rgba(255,255,255,0.05);
+  color:var(--teal);
+  padding:.35rem .45rem;
+  border-radius:8px;
+  font-weight:700;
+  display:none;
+}
+.lb-autoplay-indicator.active { display:block; }
+
+/* keyboard focus */
+.gallery-thumb:focus, .mini-btn:focus, .lb-close:focus, .lb-prev:focus, .lb-next:focus { outline: 3px solid rgba(0,228,208,0.12); outline-offset:4px; }
+
     }
     .contact-card h3{font-size:1.05rem;margin-bottom:.4rem;}
     .contact-logs{margin-top:1rem;max-height:160px;overflow:auto;font-size:.8rem;padding-right:.4rem;color:var(--muted);}
@@ -676,7 +812,7 @@
           <li><a href="#skills">Skills</a></li>
           <li><a href="#projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
-          <li><a  href="mailto:ankitpadhiyar018@gmail.com"><button class="nav-cta" onclick="scrollToContact()">Let's talk ↗</button> </a></li>
+          <li><a  href="mailto:ankitpadhiyar018@gmail.com"><button class="nav-cta">Let's talk ↗</button> </a></li>
         </ul>
       </nav>
     </div>
@@ -1059,15 +1195,54 @@
           </form>
         </div>
 
-        <div class="contact-card tilt-3d">
-          <h3>Mini 3D contact card</h3>
-          <p style="font-size:.9rem;color:var(--muted);">
-            This card acts like a small dashboard for your messages.
-            In a real setup, this could show live notifications from email or a database.
-          </p>
-          <div class="contact-logs" id="contactLogs"></div>
-        </div>
-      </div>
+       <div class="contact-card gallery-card tilt-3d" aria-label="Certificate gallery">
+  <h3>Certificates & Gallery</h3>
+  <p style="font-size:.9rem;color:var(--muted);">
+    A quick gallery of certificates and highlights. Click any image to view full-size,
+    navigate with arrows or use keyboard (← → Esc). Replace <code>cert-1.jpg</code> etc.
+  </p>
+
+  <!-- gallery thumbnails -->
+  <div class="gallery-grid" id="galleryGrid">
+    <!-- Replace these src values with your actual certificate image paths -->
+    <button class="gallery-thumb" data-src="cert-1.jpg" aria-label="Open certificate 1">
+      <img src="cert-1-thumb.jpg" alt="Certificate 1" />
+    </button>
+    <button class="gallery-thumb" data-src="cert-2.jpg" aria-label="Open certificate 2">
+      <img src="cert-2-thumb.jpg" alt="Certificate 2" />
+    </button>
+    <button class="gallery-thumb" data-src="cert-3.jpg" aria-label="Open certificate 3">
+      <img src="cert-3-thumb.jpg" alt="Certificate 3" />
+    </button>
+    <button class="gallery-thumb" data-src="cert-4.jpg" aria-label="Open certificate 4">
+      <img src="cert-4-thumb.jpg" alt="Certificate 4" />
+    </button>
+    <button class="gallery-thumb" data-src="cert-5.jpg" aria-label="Open certificate 5">
+      <img src="cert-5-thumb.jpg" alt="Certificate 5" />
+    </button>
+    <!-- add more thumbnails as needed -->
+  </div>
+
+  <!-- small controls -->
+  <div class="gallery-controls">
+    <label style="font-size:.8rem;color:var(--muted);">Autoplay</label>
+    <input id="galleryAutoplay" type="checkbox" aria-label="Toggle autoplay slideshow" />
+    <button id="openFirstBtn" class="mini-btn" title="Open first image">Open first</button>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image viewer">
+    <button class="lb-close" id="lbClose" aria-label="Close viewer">✕</button>
+    <button class="lb-prev" id="lbPrev" aria-label="Previous image">‹</button>
+    <div class="lb-stage" id="lbStage" role="document">
+      <img id="lbImage" alt="Expanded certificate" />
+      <figcaption id="lbCaption" style="color:var(--muted);font-size:.85rem;margin-top:.6rem;text-align:center;"></figcaption>
+    </div>
+    <button class="lb-next" id="lbNext" aria-label="Next image">›</button>
+    <div class="lb-autoplay-indicator" id="lbAutoplayIndicator" title="Autoplay running">▶</div>
+  </div>
+</div>
+
     </section>
   </main>
 
@@ -1176,6 +1351,123 @@
 
     // footer year
     document.getElementById("year").textContent = new Date().getFullYear();
+    // Gallery + lightbox logic
+(function(){
+  const thumbs = Array.from(document.querySelectorAll('.gallery-thumb'));
+  const lb = document.getElementById('lightbox');
+  const lbImage = document.getElementById('lbImage');
+  const lbCaption = document.getElementById('lbCaption');
+  const lbClose = document.getElementById('lbClose');
+  const lbPrev = document.getElementById('lbPrev');
+  const lbNext = document.getElementById('lbNext');
+  const autoplayToggle = document.getElementById('galleryAutoplay');
+  const autoplayIndicator = document.getElementById('lbAutoplayIndicator');
+
+  let currentIndex = 0;
+  let autoplay = false;
+  let autoplayTimer = null;
+
+  function openLightbox(index){
+    const thumb = thumbs[index];
+    const src = thumb.dataset.src || thumb.querySelector('img').src;
+    lbImage.src = src;
+    lbImage.alt = thumb.querySelector('img').alt || 'Certificate image';
+    lbCaption.textContent = (thumb.querySelector('img').alt || '').replace(/-/g,' ');
+    lb.setAttribute('aria-hidden','false');
+    currentIndex = index;
+    document.body.style.overflow = 'hidden'; // prevent background scroll
+    // start autoplay if checked
+    if(autoplayToggle && autoplayToggle.checked){ startAutoplay(); }
+    // focus close button for accessibility
+    lbClose.focus();
+  }
+
+  function closeLightbox(){
+    lb.setAttribute('aria-hidden','true');
+    lbImage.src = '';
+    document.body.style.overflow = '';
+    stopAutoplay();
+  }
+
+  function showNext(){
+    const next = (currentIndex + 1) % thumbs.length;
+    openLightbox(next);
+  }
+  function showPrev(){
+    const prev = (currentIndex - 1 + thumbs.length) % thumbs.length;
+    openLightbox(prev);
+  }
+
+  function startAutoplay(){
+    autoplay = true;
+    autoplayIndicator.classList.add('active');
+    stopAutoplay();
+    autoplayTimer = setInterval(() => {
+      showNext();
+    }, 3000);
+  }
+  function stopAutoplay(){
+    autoplay = false;
+    autoplayIndicator.classList.remove('active');
+    if(autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; }
+  }
+
+  // thumb click handlers
+  thumbs.forEach((btn, idx) => {
+    btn.addEventListener('click', () => openLightbox(idx));
+    btn.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(idx); }
+    });
+  });
+
+  // lightbox controls
+  lbClose.addEventListener('click', closeLightbox);
+  lbNext.addEventListener('click', showNext);
+  lbPrev.addEventListener('click', showPrev);
+
+  // keyboard nav
+  document.addEventListener('keydown', (e) => {
+    if (lb.getAttribute('aria-hidden') === 'false') {
+      if(e.key === 'Escape') closeLightbox();
+      if(e.key === 'ArrowRight') showNext();
+      if(e.key === 'ArrowLeft') showPrev();
+    }
+  });
+
+  // click outside to close (on background)
+  lb.addEventListener('click', (e) => {
+    if(e.target === lb) closeLightbox();
+  });
+
+  // autoplay toggle
+  if(autoplayToggle){
+    autoplayToggle.addEventListener('change', () => {
+      if(autoplayToggle.checked) {
+        startAutoplay();
+      } else {
+        stopAutoplay();
+      }
+    });
+  }
+
+  // open first quick button
+  const openFirst = document.getElementById('openFirstBtn');
+  if(openFirst){
+    openFirst.addEventListener('click', () => {
+      if(thumbs.length) openLightbox(0);
+    });
+  }
+
+  // Ensure thumbs array is updated if you dynamically add images later
+  // small helper: prefill thumbnails data-src from img src if not provided
+  thumbs.forEach(t => {
+    if(!t.dataset.src){
+      const img = t.querySelector('img');
+      if(img) t.dataset.src = img.src;
+    }
+  });
+})();
+
   </script>
 </body>
 </html>
