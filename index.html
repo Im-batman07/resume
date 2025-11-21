@@ -801,21 +801,24 @@
 
 /* Image Cards */
 .profile-card{
-  width:300px;
-  height:380px;
+  width:600px;
+  height:600px;
   border-radius:20px;
-  background-size:300px;
+  background-size:600px;
   background-position:center;
   background-repeat:no-repeat;
   transition:all .6s ease;
   position:relative;
   overflow:hidden;
   cursor:pointer;
+  filter: grayscale(0%);
 }
 
 /* Zoom on Hover */
 .profile-card:hover{
-  background-size:600px;
+  background-size:900px;
+   border-radius:50px;
+  filter: grayscale(30%);
 }
 
 /* Hover Text */
@@ -1262,15 +1265,15 @@
           </form>
         </div>
 
-       <div class="image-hover-section tilt-3d">
-  <h3 style="margin-bottom:1rem;">Showcase</h3>
+       <div class="full-image-section tilt-3d">
+  <h3 style="margin-bottom:1rem;">Just Hover Me#</h3>
 
   <div class="profile-card-container">
 
     <!-- KAKASHI IMAGE -->
-    <div class="profile-card" 
+    <div class="full-image-card" 
          style="background-image:url('kakashi-hatake-naruto-amoled-black-background-artwork-5120x2880-6484.jpg')">
-      <div class="overlay-text">
+      <div class="full-overlay-text">
         Ankit Padhiyar <br>
         ankitpadhiyar018@gmail.com
       </div>
