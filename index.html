@@ -1172,7 +1172,7 @@ profile-card-container{
 
      <!-- IMAGE SHOWCASE SECTION -->
 <div class="image-hover-section tilt-3d">
-  <h3 style="margin-bottom:1rem;">Showcase</h3>
+  <h3 style="margin-bottom:1rem;">Just hover #ME</h3>
 
   <div class="profile-card-container">
 
@@ -1186,63 +1186,6 @@ profile-card-container{
     </div>
   </div>
 </div>
-
-<!-- CSS FOR IMAGE SHOWCASE -->
-<style>
-.profile-card-container{
-  display:flex;
-  gap:20px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-
-/* Image Cards */
-.profile-card{
-  width:300px;
-  height:380px;
-  border-radius:20px;
-  background-size:300px;
-  background-position:center;
-  background-repeat:no-repeat;
-  transition:all .6s ease;
-  position:relative;
-  overflow:hidden;
-  cursor:pointer;
-}
-
-/* Zoom on Hover */
-.profile-card:hover{
-  background-size:600px;
-}
-
-/* Hover Text */
-.overlay-text{
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  padding:15px;
-  text-align:center;
-  background:rgba(0,0,0,0.6);
-  color:white;
-  font-size:1rem;
-  opacity:0;
-  transition:opacity .4s ease;
-}
-
-/* Show Text on Hover */
-.profile-card:hover .overlay-text{
-  opacity:1;
-}
-</style>
-
-
-  <!-- small controls -->
-  <div class="gallery-controls">
-    <label style="font-size:.8rem;color:var(--muted);">Autoplay</label>
-    <input id="galleryAutoplay" type="checkbox" aria-label="Toggle autoplay slideshow" />
-    <button id="openFirstBtn" class="mini-btn" title="Open first image">Open first</button>
-  </div>
 
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image viewer">
