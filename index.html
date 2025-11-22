@@ -889,7 +889,106 @@ profile-card-container{
     .chat-panel { right:12px; left:12px; bottom:88px; width: auto; height:54vh; max-height:72vh; }
     .chat-btn { right:12px; bottom:12px; }
   }
-  </style>
+  
+/* ===== Responsive fixes & mobile-friendly tweaks ===== */
+
+/* Fix typos in selectors and ensure grids stack correctly */
+@media (max-width: 960px) {
+  .hero,
+  .about-grid,
+  .image-grid,
+  .contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hero { gap: 2rem; }
+  .hero-3d { order: -1; }
+}
+
+/* Smaller screens adjustments */
+@media (max-width: 640px) {
+  main { padding-inline: 5vw; }
+  section { padding-block: 3.2rem; }
+  .hero-title { font-size: 2.3rem; }
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .glass-card, .skill-card, .project-card, .about-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  /* reduce heavy visual effects on tiny devices for performance */
+  .tilt-3d { animation: none; transform: none !important; box-shadow: none !important; }
+  .parallax-3d { display: none; }
+
+  /* images scale better */
+  .image-frame { padding: 0.25rem; border-radius: 14px; }
+  .image-inner img { object-fit: cover; height: auto; max-height: 48vh; }
+
+  /* social icons and nav compact */
+  nav ul { gap: 0.8rem; }
+  .nav-container { padding: .6rem 4vw; }
+}
+
+/* ===== Mobile hamburger nav (simple, accessible) ===== */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 0;
+  font-size: 1.25rem;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+@media (max-width: 900px) {
+  nav ul { display: none; flex-direction: column; gap: 0; background: rgba(2,4,8,0.95); position: absolute; right: 4vw; top: 60px; border-radius: 10px; padding: 0.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.6); }
+  nav ul.open { display: flex; min-width: 160px; }
+  nav ul li { padding: 0.6rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .nav-toggle { display: inline-flex; }
+  .nav-cta { display: block; width: 100%; box-sizing: border-box; }
+}
+
+/* ===== Profile / gallery responsive fixes ===== */
+.profile-card-container {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px;
+  background: transparent;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  padding-bottom: 56%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 14px;
+  transition: transform .45s ease, background-size .45s ease;
+}
+@media (min-width: 900px) {
+  .profile-card { max-width: 600px; height: 700px; padding-bottom: 0; }
+}
+.profile-card .overlay-text { font-size: 1rem; padding: 12px; }
+
+.lb-prev, .lb-next, .lb-close { padding: .5rem .6rem; font-size: .95rem; }
+@media (max-width: 520px) {
+  .lb-prev, .lb-next { display:none; }
+  .lb-close { top: 12px; right: 12px; }
+}
+
+/* ===== Fix malformed rgba issues (example corrections) ===== */
+.logo-badge { box-shadow: 0 10px 25px rgba(0,228,208,0.65); }
+.project-ribbon { background: linear-gradient(135deg, rgba(0,228,208,0.9), rgba(255,45,111,0.9)); }
+
+.hidden-mobile { display: none; }
+@media (min-width: 900px) { .hidden-mobile { display: block; } }
+
+</style>
 </head>
 <body>
 
@@ -941,6 +1040,10 @@ profile-card-container{
     <div class="nav-container">
       <div class="logo tilt-3d">
         <div class="logo-badge">A</div>
+  <!-- mobile nav toggle -->
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Open menu">☰</button>
+
+  
         <span>Ankit&nbsp;Padhiyar</span>
       </div>
       <nav>
@@ -1811,5 +1914,28 @@ profile-card-container{
 
 })();
   </script>
+
+<script>
+
+// mobile nav toggle
+(function(){
+  const btn = document.getElementById('navToggle');
+  const nav = document.getElementById('mainNav');
+  if(!btn || !nav) return;
+  btn.addEventListener('click', function(){
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+
+  // Close menu when clicking an item (mobile)
+  nav.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click', ()=>{
+      nav.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    });
+  });
+})();
+
+</script>
 </body>
 </html>
