@@ -657,23 +657,6 @@ profile-card-container{
     padding:auto;
 }
 
-/* Image Cards */
-.profile-card{
-  right:auto;
-  left:100px;
-  width:800px;
-  height:1000px;
-  border-radius:1px;
-  background-size:1500px;
-  background-position:center;
-  background-repeat:no-repeat;
-  transition:all .6s ease;
-  position:relative;
-  overflow:hidden;
-   cursor:pointer;
- 
-}
-
 /* Zoom on Hover */
 .profile-card:hover{
   background-size:1700px;
@@ -972,17 +955,7 @@ profile-card-container{
   background: transparent;
 }
 
-.profile-card {
-  width: 400px;
-  height: 600px;
-  padding-bottom: 56%;
-  background-size: cover;
-  background-position: center;
-  border-radius: 10px;
-  transition: transform .45s ease, background-size .45s ease;
-}
-@media (min-width: 600px) {
-  .profile-card { max-width: 500px; height: 600px; padding-bottom: 0; }
+
 }
 .profile-card .overlay-text { font-size: 1rem; padding: 12px; }
 
@@ -1021,25 +994,10 @@ html, body { max-width:100%; overflow-x:hidden !important; }
   justify-content:center;
 }
 
-/* Make the profile card fluid and keep aspect ratio */
-.profile-card {
-  position: relative !important;
-  left: auto !important;
-  right: auto !important;
-  width: 100% !important;
-  max-width: 360px;
-  height: auto !important;
-  aspect-ratio: 3/4;
-  padding-bottom: 0 !important;
-  background-size: cover !important;
-  background-position: center;
-  border-radius: 12px;
-  margin: 8px auto;
-}
+
 
 /* Reduce hover zoom intensity on small screens */
 @media (max-width: 640px) {
-  .profile-card:hover { background-size: 140% !important; }
   .profile-card .overlay-text { font-size: 0.95rem; padding: 10px; }
 }
 
