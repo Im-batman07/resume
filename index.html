@@ -999,6 +999,140 @@ profile-card-container{
 .hidden-mobile { display: none; }
 @media (min-width: 900px) { .hidden-mobile { display: block; } }
 
+
+/* --- START: Responsive fixes added by assistant --- */
+
+/* Prevent horizontal overflow on small devices */
+html, body { max-width:100%; overflow-x:hidden !important; }
+
+/* Replace any fixed-position large gallery container with responsive layout */
+.profile-card-container {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+  max-width: 520px;
+  margin: 0 auto;
+  height: auto !important;
+  padding: 12px;
+  background: transparent !important;
+  display:flex;
+  justify-content:center;
+}
+
+/* Make the profile card fluid and keep aspect ratio */
+.profile-card {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+  max-width: 360px;
+  height: auto !important;
+  aspect-ratio: 3/4;
+  padding-bottom: 0 !important;
+  background-size: cover !important;
+  background-position: center;
+  border-radius: 12px;
+  margin: 8px auto;
+}
+
+/* Reduce hover zoom intensity on small screens */
+@media (max-width: 640px) {
+  .profile-card:hover { background-size: 140% !important; }
+  .profile-card .overlay-text { font-size: 0.95rem; padding: 10px; }
+}
+
+/* Mobile nav breakpoint fix (was mistakenly 90px) */
+@media (max-width: 900px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    background: rgba(2,4,8,0.95);
+    position: absolute;
+    right: 4vw;
+    top: 60px;
+    border-radius: 10px;
+    padding: 0.5rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    min-width: 160px;
+  }
+  nav ul.open { display: flex; }
+  nav ul li { padding: 0.6rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .nav-toggle { display: inline-flex; }
+  .nav-cta { width: auto; display: inline-block; }
+}
+
+/* Make main grids collapse to one column earlier for better phones */
+@media (max-width: 960px) {
+  .hero, .about-grid, .image-grid, .contact-grid { grid-template-columns: 1fr !important; }
+  .hero { gap: 1.6rem; }
+  .hero-3d { order: -1; }
+}
+
+/* Tidy chat panel on very small screens */
+@media (max-width: 520px){
+  .chat-panel { right:12px; left:12px; bottom:88px; width: auto; height:54vh; max-height:72vh; }
+  .chat-btn { right:12px; bottom:12px; }
+}
+
+/* Lightbox controls on tiny screens */
+@media (max-width: 520px){
+  .lb-prev, .lb-next { display:none !important; }
+  .lb-close { top: 12px; right: 12px; }
+  .lb-stage img { max-height: 70vh; }
+}
+
+/* Ensure hero title scales and doesn't overflow */
+.hero-title { word-break: break-word; }
+
+/* Small performance tweak: disable heavy 3D motion on small devices */
+@media (max-width: 640px) {
+  .tilt-3d { animation: none !important; transform: none !important; box-shadow: none !important; }
+  .parallax-3d { display: none !important; }
+}
+
+/* final safety: prevent any element from forcing horizontal scroll */
+*:not(html):not(body) { max-width: 100vw; box-sizing: border-box; }
+
+/* --- END: Responsive fixes added by assistant --- */
+
+/* --- START: Option B - full-width image with rounded corners (end section) --- */
+.profile-card-container {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-card {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 3/4;
+  margin: 0 auto !important;
+  border-radius: 18px !important;
+  overflow: hidden;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+@media (max-width: 640px) {
+  .profile-card {
+    aspect-ratio: 3/3.8;
+  }
+}
+/* --- END: Option B - full-width image with rounded corners --- */
 </style>
 </head>
 <body>
