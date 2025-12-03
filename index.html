@@ -632,13 +632,13 @@
   /* --- Gallery card styles (fits your neon/3D theme) --- */
 profile-card-container{
   display:flex;
-  gap:10px;
+  gap:1px;
   justify-content:center;
     flex-wrap:wrap;
     position: fixed;
     top: 0;
-    left: auto;
-    right: auto;
+    left: 0;
+    right: 0;
     width: 0px;
     height: 600px;     /* full right-side height */
     background: #f5f5f5;
@@ -659,12 +659,13 @@ profile-card-container{
   transition:all .6s ease;
   position:relative;
   overflow:hidden;
-  cursor:pointer;
+   cursor:pointer;
+ 
 }
 
 /* Zoom on Hover */
 .profile-card:hover{
-  background-size:150px;
+  background-size:700px;
 }
 
 /* Hover Text */
